@@ -5,25 +5,25 @@ This project is an end‑to‑end machine learning pipeline that predicts studen
 
 ## Project Overview
 
-The main goal is to build a robust regression model that can estimate a student’s math score using features such as gender, race/ethnicity, parental education, lunch type, test preparation course, and reading/writing scores. The project is structured in a production‑style way with separate modules for each pipeline stage and reusable utilities.[^1][^2]
+The main goal is to build a robust regression model that can estimate a student’s math score using features such as gender, race/ethnicity, parental education, lunch type, test preparation course, and reading/writing scores. The project is structured in a production‑style way with separate modules for each pipeline stage and reusable utilities.
 
 ## Tech Stack
 
 - Python
-- Flask (for the web app)[^3]
-- scikit‑learn (preprocessing, models, pipelines)[^2][^1]
-- XGBoost (XGBRegressor)[^2]
-- NumPy, Pandas[^1]
+- Flask (for the web app)
+- scikit‑learn (preprocessing, models, pipelines)
+- XGBoost (XGBRegressor)
+- NumPy, Pandas
 
 
 ## Dataset
 
 The project uses a student performance dataset stored as CSV files:
 
-- `data.csv`: Raw dataset.[^4]
-- `train.csv`, `test.csv`: Training and testing splits used in the pipeline.[^5][^6]
+- `data.csv`: Raw dataset.
+- `train.csv`, `test.csv`: Training and testing splits used in the pipeline.
 
-Key columns include:[^1]
+Key columns include:
 
 - Categorical:
     - `gender`
@@ -40,11 +40,11 @@ Key columns include:[^1]
 
 ## Pipeline Architecture
 
-The ML pipeline is modular and organized under `src`‑style components (as referenced in your imports).[^2][^1]
+The ML pipeline is modular and organized under `src`‑style components (as referenced in your imports).
 
 ### 1. Data Ingestion
 
-- File: `data_ingestion.py`[^7]
+- File: `data_ingestion.py`
 - Responsibilities:
     - Read the raw CSV data.
     - Split into train and test sets (`train.csv`, `test.csv`).
@@ -53,7 +53,7 @@ The ML pipeline is modular and organized under `src`‑style components (as refe
 
 ### 2. Data Transformation
 
-- File: `data_transformation.py`[^1]
+- File: `data_transformation.py`
 - Responsibilities:
     - Define preprocessing pipelines for numerical and categorical features:
         - Numerical (`writing_score`, `reading_score`):
@@ -70,7 +70,7 @@ The ML pipeline is modular and organized under `src`‑style components (as refe
 
 ### 3. Model Training
 
-- File: `model_trainer.py`[^2]
+- File: `model_trainer.py`
 - Responsibilities:
     - Train and evaluate multiple regression models:
         - RandomForestRegressor
@@ -79,14 +79,14 @@ The ML pipeline is modular and organized under `src`‑style components (as refe
         - LinearRegression
         - XGBRegressor
         - AdaBoostRegressor
-    - Perform hyperparameter tuning using a parameter grid per model via a helper `evaluate_models` function from `utils.py`.[^8][^2]
-    - Select the best model based on R² score and ensure it meets a minimum threshold of 0.6.[^2]
-    - Save the best model to `artifacts/model.pkl`.[^2]
+    - Perform hyperparameter tuning using a parameter grid per model via a helper `evaluate_models` function from `utils.py`.
+    - Select the best model based on R² score and ensure it meets a minimum threshold of 0.6.
+    - Save the best model to `artifacts/model.pkl`.
 
 
 ### 4. Prediction Pipeline
 
-- File: `predict_pipeline.py`[^9]
+- File: `predict_pipeline.py`
 - Responsibilities:
     - `CustomData` class:
         - Accepts user inputs (gender, race/ethnicity, parental education, lunch, test prep, reading_score, writing_score).
@@ -98,39 +98,39 @@ The ML pipeline is modular and organized under `src`‑style components (as refe
 
 ### 5. Logging and Exceptions
 
-- `logger.py`: Centralized logging configuration for the pipeline.[^10]
-- `exception.py`: Custom exception class wrapping errors with system info.[^11]
-- `utils.py`: Helper functions such as saving objects (`save_object`) and evaluating models (`evaluate_models`).[^8]
+- `logger.py`: Centralized logging configuration for the pipeline.
+- `exception.py`: Custom exception class wrapping errors with system info.
+- `utils.py`: Helper functions such as saving objects (`save_object`) and evaluating models (`evaluate_models`).
 
 
 ## Web Application (Flask)
 
-- File: `app.py`[^12][^3]
-- Templates: `index.html`, `home.html`[^13][^14]
+- File: `app.py`
+- Templates: `index.html`, `home.html`
 
 The Flask app exposes two main routes:
 
 - `/`
-    - Renders `index.html`, typically a landing or introduction page.[^3]
+    - Renders `index.html`, typically a landing or introduction page.
 - `/predictdata`
-    - `GET`: Renders `home.html` with the input form.[^3]
+    - `GET`: Renders `home.html` with the input form.
     - `POST`:
         - Reads form data: gender, ethnicity, parental education, lunch, test preparation course, reading and writing scores.
-        - Wraps them into a `CustomData` object and converts to a DataFrame.[^9][^3]
+        - Wraps them into a `CustomData` object and converts to a DataFrame.
         - Passes the DataFrame to `PredictPipeline` to get the predicted math score.
-        - Renders `home.html` again with the prediction result displayed.[^3]
+        - Renders `home.html` again with the prediction result displayed.
 
 Run configuration:
 
-- `app.run(host='0.0.0.0', debug=True)` in `app.py` to start the server.[^3]
+- `app.run(host='0.0.0.0', debug=True)` in `app.py` to start the server.
 
 
 ## Notebooks
 
 - `1.EDA_STUDENT_PERFORMANCE.ipynb`:
-    - Exploratory Data Analysis on the raw dataset (distributions, correlations, feature relationships, etc.).[^15]
+    - Exploratory Data Analysis on the raw dataset (distributions, correlations, feature relationships, etc.).
 - `2.MODEL_TRAINING.ipynb`:
-    - Model training experiments, metric comparisons, and sanity checks before moving logic into the pipeline files.[^16]
+    - Model training experiments, metric comparisons, and sanity checks before moving logic into the pipeline files.
 
 These notebooks are useful for understanding how the final pipeline design evolved.
 
@@ -163,8 +163,8 @@ pip install -r requirements.txt
 
 If you have a main script or use the modules directly, you would:
 
-- Ingest data (produce `train.csv`, `test.csv`).[^7]
-- Run data transformation and model training to generate `preprocessor.pkl` and `model.pkl` under `artifacts`.[^1][^2]
+- Ingest data (produce `train.csv`, `test.csv`).
+- Run data transformation and model training to generate `preprocessor.pkl` and `model.pkl` under `artifacts`.
 
 (You can orchestrate this via a driver script, or directly from a notebook.)
 
@@ -178,7 +178,7 @@ Then open the URL shown in the terminal (usually `http://127.0.0.1:5000/`) in yo
 
 ### 6. Use the Web UI
 
-- Go to the `/predictdata` page via the UI.[^3]
+- Go to the `/predictdata` page via the UI.
 - Enter:
     - Gender
     - Race/ethnicity
@@ -187,7 +187,7 @@ Then open the URL shown in the terminal (usually `http://127.0.0.1:5000/`) in yo
     - Test preparation course
     - Reading score
     - Writing score
-- Submit the form to see the predicted math score rendered on `home.html`.[^14][^3]
+- Submit the form to see the predicted math score rendered on `home.html`.
 
 
 ## Project Structure
