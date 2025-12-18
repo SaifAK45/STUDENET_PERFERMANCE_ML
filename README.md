@@ -1,10 +1,4 @@
 ## END TO END MACHINE LEARNING PROJECT
-# this is my complete project and now i want u to generate me a README.md file based on what i have provided and make sure u read everything and also i should be like human generated
-
-Here is a human‑style `README.md` tailored to your project structure and code:
-
-***
-
 # Student Performance Prediction – End‑to‑End ML Project
 
 This project is an end‑to‑end machine learning pipeline that predicts students’ **math scores** based on their demographics, parental background, and other academic factors. It covers everything from data ingestion and transformation, to model training and hyperparameter tuning, and finally serving predictions through a **Flask web application**.
